@@ -3,16 +3,17 @@ package profilepicture
 import (
 	"bytes"
 	"fmt"
+	"image"
+	"image/color"
+	"io"
+	"strings"
+
 	"github.com/disintegration/imageorient"
 	"github.com/disintegration/imaging"
 	"github.com/pocket-id/pocket-id/backend/resources"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
-	"image"
-	"image/color"
-	"io"
-	"strings"
 )
 
 const profilePictureSize = 300
@@ -29,7 +30,7 @@ func CreateProfilePicture(file io.Reader) (*bytes.Buffer, error) {
 	var buf bytes.Buffer
 	err = imaging.Encode(&buf, img, imaging.PNG)
 	if err != nil {
-		return nil, fmt.Errorf("failed to encode image: %v", err)
+		return nil, fmt.Errorf("failed to encode image: %w", err)
 	}
 
 	return &buf, nil
@@ -90,7 +91,7 @@ func CreateDefaultProfilePicture(firstName, lastName string) (*bytes.Buffer, err
 	var buf bytes.Buffer
 	err = imaging.Encode(&buf, img, imaging.PNG)
 	if err != nil {
-		return nil, fmt.Errorf("failed to encode image: %v", err)
+		return nil, fmt.Errorf("failed to encode image: %w", err)
 	}
 
 	return &buf, nil

@@ -195,10 +195,13 @@ func (s *OidcService) CreateTokens(code, grantType, clientID, clientSecret, code
 	}
 
 	accessToken, err := s.jwtService.GenerateOauthAccessToken(authorizationCodeMetaData.User, clientID)
+	if err != nil {
+		return "", "", err
+	}
 
 	s.db.Delete(&authorizationCodeMetaData)
 
-	return idToken, accessToken, nil
+	return idToken, accessToken, err
 }
 
 func (s *OidcService) GetClient(clientID string) (model.OidcClient, error) {
@@ -419,6 +422,7 @@ func (s *OidcService) GetUserClaimsForClient(userID string, clientID string) (ma
 		for _, customClaim := range customClaims {
 			// The value of the custom claim can be a JSON object or a string
 			var jsonValue interface{}
+			//nolint:errcheck // Ignore error for JSON unmarshalling
 			json.Unmarshal([]byte(customClaim.Value), &jsonValue)
 			if jsonValue != nil {
 				// It's JSON so we store it as an object

@@ -1,0 +1,20 @@
+
+linters:
+  # Disable all linters.
+  # Default: false
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - gosec
+
+  presets:
+    - bugs
+    - sql
+run:
+  timeout: "5m"
+  tests: true
