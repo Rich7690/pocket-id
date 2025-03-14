@@ -11,6 +11,7 @@ linters:
     - staticcheck
     - unused
     - gosec
+    - gocognit
 
   presets:
     - bugs
